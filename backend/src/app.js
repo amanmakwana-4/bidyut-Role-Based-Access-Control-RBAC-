@@ -9,7 +9,7 @@ import taskRoutes from './routes/taskRoutes.js';
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'bidyut-role-based-access-control-rb.vercel.app',
   credentials: true,
 }));
 app.use(express.json());

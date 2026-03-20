@@ -53,11 +53,11 @@ NODE_ENV = production
 
 ### Step 3: Verify Backend is Running
 
-Once deployed, you'll get a URL like: `https://rbac-task-backend.onrender.com`
+Your backend is now deployed at: `https://bidyut-role-based-access-control-rbac.onrender.com`
 
 Test it:
 ```bash
-curl https://rbac-task-backend.onrender.com/health
+curl https://bidyut-role-based-access-control-rbac.onrender.com/health
 ```
 
 Expected response:
@@ -80,7 +80,7 @@ Expected response:
 
 1. **Update `.env` file in frontend:**
 ```
-VITE_API_BASE_URL=https://rbac-task-backend.onrender.com
+VITE_API_BASE_URL=https://bidyut-role-based-access-control-rbac.onrender.com
 ```
 
 2. **Build and test locally:**
@@ -115,7 +115,7 @@ git push origin main
 
 6. **Add Environment Variables:**
    - Click on "Environment Variables"
-   - Add: `VITE_API_BASE_URL` = `https://rbac-task-backend.onrender.com`
+   - Add: `VITE_API_BASE_URL` = `https://bidyut-role-based-access-control-rbac.onrender.com`
 
 7. **Click "Deploy"**
 
@@ -140,7 +140,7 @@ You'll get a URL like: `https://rbac-task-frontend.vercel.app`
 2. **Open browser DevTools → Network tab**
 3. **Try to login**
 4. Check network requests:
-   - Should see requests to `https://rbac-task-backend.onrender.com/api/auth/login`
+   - Should see requests to `https://bidyut-role-based-access-control-rbac.onrender.com/api/auth/login`
    - Status should be `200` or `201` (success)
    - Status `401` or `403` (auth error)
    - Status `500` (backend error)
@@ -204,7 +204,7 @@ Once everything is deployed:
 OR use backend API directly:
 
 ```bash
-curl -X POST https://rbac-task-backend.onrender.com/api/auth/create-admin \
+curl -X POST https://bidyut-role-based-access-control-rbac.onrender.com/api/auth/create-admin \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
@@ -319,10 +319,10 @@ curl -X POST https://rbac-task-backend.onrender.com/api/auth/create-admin \
 Once deployed, you'll have:
 
 ```
-Backend API:   https://rbac-task-backend.onrender.com
+Backend API:   https://bidyut-role-based-access-control-rbac.onrender.com
 Frontend App:  https://rbac-task-frontend.vercel.app
 
-API Health:    https://rbac-task-backend.onrender.com/health
+API Health:    https://bidyut-role-based-access-control-rbac.onrender.com/health
 ```
 
 Update this README with your actual URLs!
