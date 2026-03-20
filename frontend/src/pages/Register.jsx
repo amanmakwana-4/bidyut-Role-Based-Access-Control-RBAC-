@@ -22,12 +22,15 @@ const Register = () => {
           password: formData.password,
         });
         const { token, user } = loginResponse.data;
-        login(token, user);
-        setFormData({ name: '', email: '', password: '', confirmPassword: '' });
-        // Redirect to dashboard after short delay
+        // Use setTimeout to ensure state updates are committed
         setTimeout(() => {
-          navigate('/dashboard');
-        }, 500);
+          login(token, user);
+          setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+          // Redirect after state is updated
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 100);
+        }, 0);
       } catch (loginError) {
         setError('Registration successful but auto-login failed. Please login manually.');
         setTimeout(() => {

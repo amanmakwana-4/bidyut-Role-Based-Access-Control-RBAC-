@@ -39,11 +39,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token, user) => {
-    setToken(token);
-    setUser(user);
+    // Store in localStorage immediately
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('userId', user.id);
+    
+    // Update state - use batched updates
+    setToken(token);
+    setUser(user);
   };
 
   const logout = () => {

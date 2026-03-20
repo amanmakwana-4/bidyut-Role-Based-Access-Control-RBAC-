@@ -13,7 +13,10 @@ const Login = () => {
     mutationFn: (data) => authAPI.login(data),
     onSuccess: (response) => {
       const { token, user } = response.data;
-      login(token, user);
+      // Use setTimeout to ensure state updates are committed before route evaluation
+      setTimeout(() => {
+        login(token, user);
+      }, 0);
     },
     onError: (error) => {
       setError(error.response?.data?.message || 'Login failed');
