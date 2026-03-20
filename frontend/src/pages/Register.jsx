@@ -1,22 +1,39 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { authAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const mutation = useMutation({
+  const registerMutation = useMutation({
     mutationFn: (data) => authAPI.register(data),
-    onSuccess: (response) => {
-      setSuccess('Registration successful! Redirecting to login...');
-      setFormData({ name: '', email: '', password: '', confirmPassword: '' });
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
+    onSuccess: async (response) => {
+      setSuccess('Registration successful! Logging in...');
+      // Auto-login with the registered credentials
+      try {
+        const loginResponse = await authAPI.login({
+          email: formData.email,
+          password: formData.password,
+        });
+        const { token, user } = loginResponse.data;
+        login(token, user);
+        setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+        // Redirect to dashboard after short delay
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 500);
+      } catch (loginError) {
+        setError('Registration successful but auto-login failed. Please login manually.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+      }
     },
     onError: (error) => {
       setError(error.response?.data?.message || 'Registration failed');
@@ -45,7 +62,7 @@ const Register = () => {
     }
     // Only send name, email, password to backend
     const { confirmPassword, ...submitData } = formData;
-    mutation.mutate(submitData);
+    registerMutation.mutate(submitData);
   };
 
   return (
@@ -135,18 +152,18 @@ const Register = () => {
 
           <button
             type="submit"
-            disabled={mutation.isPending || formData.password !== formData.confirmPassword || !formData.confirmPassword}
+            disabled={registerMutation.isPending || formData.password !== formData.confirmPassword || !formData.confirmPassword}
             className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium"
           >
-            {mutation.isPending ? 'Registering...' : 'Register'}
+            {registerMutation.isPending ? 'Creating Account & Logging in...' : 'Register'}
           </button>
         </form>
 
         <p className="text-center text-gray-600 dark:text-gray-400 mt-6">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+          <a href="/login" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
             Login
-          </Link>
+          </a>
         </p>
       </div>
     </div>

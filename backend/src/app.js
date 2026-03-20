@@ -9,7 +9,10 @@ import taskRoutes from './routes/taskRoutes.js';
 const app = express();
 
 app.use(cors({
-  origin: 'https://bidyut-role-based-access-control-rb.vercel.app',
+  origin: [
+    'https://bidyut-role-based-access-control-rb.vercel.app',
+    'http://localhost:3000',
+  ],
   credentials: true,
 }));
 app.use(express.json());
